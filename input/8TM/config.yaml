@@ -4,4 +4,5 @@ offset_n           : 60
 offset_c           :  5
 extra_threshold    : 15
 extra_offset       : 30
+overlap            : 40
 c_Evalue_threshold :  1
