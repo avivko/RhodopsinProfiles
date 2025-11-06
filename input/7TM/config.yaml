@@ -1,6 +1,7 @@
-name               : 7TM
-offset_n           : 10
-offset_c           : 10
-extra_threshold    : 15
-extra_offset       : 30
-c_Evalue_threshold :  1
+name               :  7TM
+offset_n           :   10
+offset_c           :   10
+extra_threshold    :   15
+extra_offset       :   30
+c_Evalue_threshold : 0.01
+overlap            :  100
