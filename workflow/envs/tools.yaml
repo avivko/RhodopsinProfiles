@@ -1,12 +1,12 @@
 channels:
  - conda-forge
  - bioconda
+ - nodefaults
 dependencies:
  - trimal=1.4.1
  - seqkit=0.14.0-0
  - hmmer=3.3.2
  - cd-hit=4.8.1
- - mafft=7.475
  - ffindex=0.98
  - csvkit=1.0.7
- - curl=7.83.1
+ - curl

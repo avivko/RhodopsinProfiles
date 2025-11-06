@@ -48,7 +48,8 @@ rule default:
 rule profile:
     input:
         expand("output/profile/{name}.hmm", name = names),
-        expand("output/profile/{name}_{ref}.a2m", name = names, ref = ref)
+        expand("output/profile/{name}_{ref}.a2m", name = names, ref = ref),
+        expand("output/profile/{name}.a3m", name = names)
 
 rule domain:
     input:
@@ -104,7 +105,7 @@ rule align:
     threads:
         20
     conda:
-        "envs/tools.yaml"
+        "envs/mafft.yaml"
     shell:
         "mafft --thread {threads} --localpair --maxiterate 1000 --reorder {input} > {output}"
 
@@ -116,10 +117,7 @@ rule annotate_aln:
     conda:
         "envs/hhsuite.yaml"
     shell:
-        """
-        export PATH=$CONDA_PREFIX/scripts:$PATH
-        reformat.pl fas a3m {input} - -v 0 -M 50 | hhconsensus -i stdin -o stdout | sed 's/>.*_consensus/>{name}_consensus/' | addss.pl stdin stdout | reformat.pl a3m a2m - {output}
-        """
+        "reformat.pl fas a3m {input} - -v 0 -M 50 | hhconsensus -i stdin -o stdout | sed 's/>.*_consensus/>{name}_consensus/' | addss.pl stdin stdout | reformat.pl a3m a2m - {output}"
 
 rule hmm_align:
     input:
@@ -176,6 +174,16 @@ rule hhmake:
         "envs/hhsuite.yaml"
     shell:
         "hhmake -seq 100000 -i {input} -o {output}"
+
+rule to_a3m:
+    input:
+        "analysis/profile/{name}/trimmed.a2m"
+    output:
+        "output/profile/{name}.a3m"
+    conda:
+        "envs/hhsuite.yaml"
+    shell:
+        "reformat.pl a2m a3m {input} {output}"
 
 rule hhblits:
     input:
